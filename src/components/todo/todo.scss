@@ -1,0 +1,136 @@
+$greenSeaweed: rgba(2, 128, 144, 1);
+$blueQueen: rgba(69, 105, 144, 1);
+$redFire: rgba(244, 91, 105, 1);
+$fontAsap: 'Asap', sans-serif;
+
+body, html {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+#todoHeader {
+  font-family: 'Unica One';
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.267)
+}
+
+.todo-details {
+  display:flex;
+  flex-direction:column;
+
+
+
+  .item {
+      flex:1;
+      padding: 1em;
+  }
+
+}
+
+.todo {
+  font-family: 'Unica One';
+  display:flex;
+  flex-direction:row;
+  justify-content: flex-start;
+  margin: 2em;
+
+  h3 {
+    font-family: 'Unica One';
+    font-size: 37px;
+    color: white;
+    text-shadow: 2px 2px #00000046;
+      
+  }
+
+  #addItem {
+    padding-left: 27px;
+    padding-bottom: 20px;
+  }
+
+  form {
+
+      display:flex;
+      flex-direction:column;
+      margin-right: 2em;
+     
+
+      label {
+          display: flex;
+          flex-direction:column;
+          width: 175px;
+          font-size: 20px;
+          margin-bottom: 1.5em;
+          color: white;
+          background-color: rgba(90, 90, 90, 0.308);
+          box-shadow: 5px 5px 5px rgba($greenSeaweed, 0.2);
+      }
+  }
+
+  ul {
+      list-style-type:none;
+      margin:0;
+      padding:0;
+
+      li {
+
+          align-items: center;
+          display:flex;
+          flex-direction:row;
+          font-size: .75em;
+          margin: .75em .5em;
+
+          &.complete-true {
+            span {
+              background: rgb(170, 255, 207);
+              text-decoration:line-through;
+              &:hover {
+                 background: rgba(170, 255, 207, 0.733);
+              }
+            }
+          }
+
+          span {
+              background: #fffffff1;
+              font-family: 'Indie Flower', ;
+              height: 20px;
+              font-size: 20px;
+              cursor:pointer;
+              &:hover {
+                  background: pink;
+              }
+          }
+           span, input {
+               border: .5px solid #eee;
+               display:inline-block;
+               padding: .2em .25em;
+               width: 300px;
+           }
+
+          button {
+              background: transparent;
+              border:none;
+              color:rgb(0, 0, 0);
+              cursor:pointer;
+              padding:0;
+              margin: 0 .75em;
+          }
+
+      }
+  }
+
+  .smButtons {
+    color: #252537;
+    width: 100px;
+    height: 30px;
+  
+    padding: 0 20px;
+    margin-left: 125px;
+    background: #fff;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    letter-spacing: 0.05em;
+  }
+
+}

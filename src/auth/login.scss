@@ -1,0 +1,70 @@
+
+// Colors
+$greenSeaweed: rgba(2, 128, 144, 1);
+$blueQueen: rgba(69, 105, 144, 1);
+$redFire: rgba(244, 91, 105, 1);
+
+// Fonts
+$fontAsap: 'Asap', sans-serif;
+
+body {
+  background-color: white;
+  font-family: $fontAsap;
+}
+
+.login {
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.452);
+  padding: 40px 30px 30px 30px;
+  border-radius: 10px;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  box-shadow: 5px 10px 10px rgba($greenSeaweed, 0.2);
+    
+
+  
+  > input {
+    font-family: $fontAsap;
+    display: block;
+    border-radius: 5px;
+    font-size: 16px;
+    background: white;
+    width: 100%;
+    border: 0;
+    padding: 10px 10px;
+    margin: 15px -10px;
+  }
+
+  
+}
+
+#loginButton {
+  font-family: $fontAsap;
+  cursor: pointer;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.301);
+  font-size: 16px;
+  text-transform: uppercase;
+  width: 100px;
+  text-align: center;
+  border: 0;
+  padding: 10px 0;
+  border-radius: 5px;
+
+
+  
+  &:hover {
+    background-color: darken(#a8edea, 5%);
+  }
+}
+
+
+a {
+  text-decoration: none;
+  color: rgba(white, 0.6);
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 12px;
+}

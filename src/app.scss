@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower|PT+Mono|Unica+One&display=swap');
+
+@import './components/header/header.scss';
+@import './components/modal/modal.scss';
+@import './components/todo/todo.scss';
+@import './auth/login.scss';
+
+
+
+body {
+background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
+background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+background-attachment: fixed;
+background-repeat: no-repeat;
+}

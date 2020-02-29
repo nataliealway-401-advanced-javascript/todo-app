@@ -18,7 +18,7 @@ const ToDo = props => {
   const [handleSubmit, handleChange, values] = useForm(addItem);
   const [setRequest, response, error, isLoading] = useFetch();
 
-  const url = "https://api-js401.herokuapp.com/api/v1/todo";
+  let url = process.env.URL;
 
   // set todo list from data if data exists else get all
   useEffect(() => {

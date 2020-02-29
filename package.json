@@ -5,6 +5,7 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "jsonwebtoken": "8.5.1",
@@ -40,5 +41,5 @@
   "bugs": {
     "url": "https://github.com/nataliealway-401-advanced-javascript/todo-app/issues"
   },
-  "homepage": "https://github.com/nataliealway-401-advanced-javascript/todo-app#readme"
+  "homepage": "https://workingbranch.d3sfhhihfd52pa.amplifyapp.com/"
 }

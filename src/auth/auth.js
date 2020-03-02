@@ -6,6 +6,10 @@ const If = props => {
   return !!props.condition ? props.children : null;
 };
 
+/**
+ * @class Auth
+ * Access control for roles that can access specific components
+ */
 class Auth extends React.Component {
   static contextType = LoginContext;
 

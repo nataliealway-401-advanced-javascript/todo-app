@@ -10,6 +10,11 @@ const If = props => {
   return !!props.condition ? props.children : null;
 };
 
+
+/**
+ * Component that handles login authentication 
+ * @class Login
+ */
 class Login extends React.Component {
   static contextType = LoginContext;
   constructor(props) {
@@ -21,6 +26,10 @@ class Login extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+    /**
+   *  Handles the submit event of the login form
+   * @params e
+   */
   handleSubmit = e => {
     //use the uid, pw, and superagent an API call to server for authentication
     //and capabilities

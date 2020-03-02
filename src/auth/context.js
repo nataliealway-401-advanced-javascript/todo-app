@@ -4,6 +4,11 @@ import cookie from "react-cookies";
 
 export const LoginContext = React.createContext();
 
+
+/**
+ * @class LoginProvider
+ * Context for authentication and authorization
+ */
 class LoginProvider extends React.Component {
   constructor(props) {
     super(props);
@@ -22,16 +27,27 @@ class LoginProvider extends React.Component {
     console.log(this.state);
   }
 
+  /**
+   * Login
+   * @params token
+   */
   login = token => {
     cookie.save("auth", token);
     this.setLoginState(true);
   };
 
+  /**
+   *  Logout
+   */
   logout = () => {
     cookie.remove("auth");
     this.setLoginState(false);
   };
 
+  /**
+   * Handles state changes with login status
+   * @params loggedIn
+   */
   setLoginState = loggedIn => {
     let token = cookie.load("auth");
     this.setState({ token, loggedIn });

@@ -1,4 +1,32 @@
-import React, { useState, useEffect, useContext } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/todo/todo.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/todo/todo.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect, useContext } from "react";
 import useForm from "../hooks/useForm";
 import { When, If, Then, Else } from "../if/if.js";
 import Modal from "../modal/modal.js";
@@ -149,33 +177,33 @@ const ToDo = props => {
   };
 
   return (
-    <>
-      <Auth capbility="read">
-        <header id="todoHeader">
-          <h2>
+    &lt;>
+      &lt;Auth capbility="read">
+        &lt;header id="todoHeader">
+          &lt;h2>
             There are {todoList.filter(item => !item.complete).length} Items To
             Complete
-          </h2>
-        </header>
-      </Auth>
+          &lt;/h2>
+        &lt;/header>
+      &lt;/Auth>
 
-      <section className="todo">
-        <div id="addItem">
-          <Auth capability="create">
-            <div>
-              <h3>Add Item</h3>
-              <form onSubmit={handleSubmit}>
-                <label>
-                  <span>To Do Item</span>
-                  <input
+      &lt;section className="todo">
+        &lt;div id="addItem">
+          &lt;Auth capability="create">
+            &lt;div>
+              &lt;h3>Add Item&lt;/h3>
+              &lt;form onSubmit={handleSubmit}>
+                &lt;label>
+                  &lt;span>To Do Item&lt;/span>
+                  &lt;input
                     name="text"
                     placeholder="Add To Do List Item"
                     onChange={handleChange}
                   />
-                </label>
-                <label>
-                  <span>Difficulty Rating</span>
-                  <input
+                &lt;/label>
+                &lt;label>
+                  &lt;span>Difficulty Rating&lt;/span>
+                  &lt;input
                     type="range"
                     min="1"
                     max="5"
@@ -183,37 +211,37 @@ const ToDo = props => {
                     defaultValue="3"
                     onChange={handleChange}
                   />
-                </label>
-                <label>
-                  <span>Assigned To</span>
-                  <input
+                &lt;/label>
+                &lt;label>
+                  &lt;span>Assigned To&lt;/span>
+                  &lt;input
                     type="text"
                     name="assignee"
                     placeholder="Assigned To"
                     onChange={handleChange}
                   />
-                </label>
-                <label>
-                  <span>Due</span>
-                  <input type="date" name="due" onChange={handleChange} />
-                </label>
-                <button>Add Item</button>
-              </form>
-            </div>
-          </Auth>
-        </div>
-        <Auth capbilith="read">
-          <div>
-            <button
+                &lt;/label>
+                &lt;label>
+                  &lt;span>Due&lt;/span>
+                  &lt;input type="date" name="due" onChange={handleChange} />
+                &lt;/label>
+                &lt;button>Add Item&lt;/button>
+              &lt;/form>
+            &lt;/div>
+          &lt;/Auth>
+        &lt;/div>
+        &lt;Auth capbilith="read">
+          &lt;div>
+            &lt;button
               className="smButtons"
               name="hideCompleteButton"
               onClick={toggleHideComplete}
             >
               Display Completed
-            </button>
-            <ul>
-              <If condition={settingsContext.displayCompleted === true}>
-                <Then>
+            &lt;/button>
+            &lt;ul>
+              &lt;If condition={settingsContext.displayCompleted === true}>
+                &lt;Then>
                   {todoList
                     .filter(item => item.complete === false)
                     .slice(
@@ -224,27 +252,27 @@ const ToDo = props => {
                         settingsContext.itemsDisplayed
                     )
                     .map(item => (
-                      <li
+                      &lt;li
                         className={`complete-${item.complete.toString()}`}
                         key={item._id}
                       >
-                        <span onClick={() => toggleComplete(item._id)}>
+                        &lt;span onClick={() => toggleComplete(item._id)}>
                           {item.text}
-                        </span>
-                        <Auth capability="update">
-                          <button onClick={() => toggleDetails(item._id)}>
+                        &lt;/span>
+                        &lt;Auth capability="update">
+                          &lt;button onClick={() => toggleDetails(item._id)}>
                             Details
-                          </button>
-                        </Auth>
-                        <Auth capability="delete">
-                          <button onClick={() => deleteItem(item._id)}>
+                          &lt;/button>
+                        &lt;/Auth>
+                        &lt;Auth capability="delete">
+                          &lt;button onClick={() => deleteItem(item._id)}>
                             Delete
-                          </button>
-                        </Auth>
-                      </li>
+                          &lt;/button>
+                        &lt;/Auth>
+                      &lt;/li>
                     ))}
-                </Then>
-                <Else>
+                &lt;/Then>
+                &lt;Else>
                   {todoList
                     .slice(
                       settingsContext.pageNumber *
@@ -254,83 +282,106 @@ const ToDo = props => {
                         settingsContext.itemsDisplayed
                     )
                     .map(item => (
-                      <li
+                      &lt;li
                         className={`complete-${item.complete.toString()}`}
                         key={item._id}
                       >
-                        <span onClick={() => toggleComplete(item._id)}>
+                        &lt;span onClick={() => toggleComplete(item._id)}>
                           {item.text}
-                        </span>
-                        <Auth capability="update">
-                          <button onClick={() => toggleDetails(item._id)}>
+                        &lt;/span>
+                        &lt;Auth capability="update">
+                          &lt;button onClick={() => toggleDetails(item._id)}>
                             Details
-                          </button>
-                        </Auth>
-                        <Auth capability="delete">
-                          <button onClick={() => deleteItem(item._id)}>
+                          &lt;/button>
+                        &lt;/Auth>
+                        &lt;Auth capability="delete">
+                          &lt;button onClick={() => deleteItem(item._id)}>
                             Delete
-                          </button>
-                        </Auth>
-                      </li>
+                          &lt;/button>
+                        &lt;/Auth>
+                      &lt;/li>
                     ))}
-                </Else>
-              </If>
-              <If condition={settingsContext.pageNumber >= 1}>
-                <Then>
-                  <button
+                &lt;/Else>
+              &lt;/If>
+              &lt;If condition={settingsContext.pageNumber >= 1}>
+                &lt;Then>
+                  &lt;button
                     className="smButtons"
                     name="prevButton"
                     onClick={togglePageNumber}
                   >
                     Previous
-                  </button>
-                </Then>
-              </If>
-              <If
+                  &lt;/button>
+                &lt;/Then>
+              &lt;/If>
+              &lt;If
                 condition={
-                  settingsContext.currentDisplayed > 5 &&
+                  settingsContext.currentDisplayed > 5 &amp;&amp;
                   settingsContext.currentDisplayed /
                     (settingsContext.pageNumber + 1) >
                     settingsContext.itemsDisplayed
                 }
               >
-                <Then>
-                  <button
+                &lt;Then>
+                  &lt;button
                     className="smButtons"
                     name="nextButton"
                     onClick={togglePageNumber}
                   >
                     Next
-                  </button>
-                </Then>
-              </If>
-            </ul>
-          </div>
-        </Auth>
-      </section>
+                  &lt;/button>
+                &lt;/Then>
+              &lt;/If>
+            &lt;/ul>
+          &lt;/div>
+        &lt;/Auth>
+      &lt;/section>
 
-      <When condition={showDetails}>
-        <Modal title="To Do Item" close={toggleDetails}>
-          <div className="todo-details">
-            <header>
-              <span>
-                <h4>Assigned To:</h4> {details.assignee}{" "}
-              </span>
-              <span>
-                <h4>Difficulty:</h4> {details.difficulty} out of 5{" "}
-              </span>
-              <span>
-                <h4>Due: </h4>
+      &lt;When condition={showDetails}>
+        &lt;Modal title="To Do Item" close={toggleDetails}>
+          &lt;div className="todo-details">
+            &lt;header>
+              &lt;span>
+                &lt;h4>Assigned To:&lt;/h4> {details.assignee}{" "}
+              &lt;/span>
+              &lt;span>
+                &lt;h4>Difficulty:&lt;/h4> {details.difficulty} out of 5{" "}
+              &lt;/span>
+              &lt;span>
+                &lt;h4>Due: &lt;/h4>
                 {details.due}{" "}
-              </span>
-            </header>
-            <h4>Details:</h4>
-            <div className="item">{details.text}</div>
-          </div>
-        </Modal>
-      </When>
-    </>
+              &lt;/span>
+            &lt;/header>
+            &lt;h4>Details:&lt;/h4>
+            &lt;div className="item">{details.text}&lt;/div>
+          &lt;/div>
+        &lt;/Modal>
+      &lt;/When>
+    &lt;/>
   );
 };
 
 export default ToDo;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Auth.html">Auth</a></li><li><a href="Login.html">Login</a></li><li><a href="LoginProvider.html">LoginProvider</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Mar 01 2020 22:29:31 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

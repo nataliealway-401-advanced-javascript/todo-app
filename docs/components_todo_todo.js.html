@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/todo/todo.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/todo/todo.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect, useContext } from "react";
+import useForm from "../hooks/useForm";
+import { When, If, Then, Else } from "../if/if.js";
+import Modal from "../modal/modal.js";
+import useFetch from "../hooks/useFetch";
+import { SettingsContext } from "../../context/settings.js";
+import { LoginContext } from "../../auth/login";
+import Auth from "../../auth/auth";
+
+import "./todo.scss";
+
+const ToDo = props => {
+  const settingsContext = useContext(SettingsContext);
+
+  const [todoList, setTodoList] = useState([]);
+  const [showDetails, setShowDetails] = useState(false);
+  const [details, setDetails] = useState({});
+  const [handleSubmit, handleChange, values] = useForm(addItem);
+  const [setRequest, response, error, isLoading] = useFetch();
+
+  const url = "https://api-js401.herokuapp.com/api/v1/todo";
+
+
+  /**
+   * set todo list from results data if data exists, else get all
+   */
+  useEffect(() => {
+    if (response.count >= 0) {
+      setTodoList(response.results);
+    } else {
+      getAll();
+    }
+  }, [response]);
+
+
+  useEffect(() => {
+    let complete = todoList.filter(item => !item.complete).length;
+    let incomplete = todoList.filter(item => item.complete).length;
+
+    document.title = `ToDo:${complete} Done:${incomplete}`;
+
+    !settingsContext.displayCompleted
+      ? settingsContext.setCurrentDisplayed(todoList.length)
+      : settingsContext.setCurrentDisplayed(todoList.length - complete);
+  });
+
+  const getAll = () => {
+    const request = {
+      url: url,
+      options: {
+        method: "GET"
+      }
+    };
+    setRequest(request);
+  };
+
+  /**
+   * Get data from API on mount
+  */
+  useEffect(() => {
+    getAll();
+  }, []);
+
+
+  /**
+   * Send a request to add an item to the database
+   * @param {*} data 
+   */
+  function addItem(data) {
+    const request = {
+      url: url,
+      options: {
+        method: "POST",
+        body: JSON.stringify(data)
+      }
+    };
+    setRequest(request);
+  }
+
+  /**
+   * Send a request to delete an item from the database
+   * @param {*} id 
+   */
+  const deleteItem = id => {
+    console.log(id);
+    const request = {
+      url: `${url}/${id}`,
+      options: {
+        method: "DELETE"
+      }
+    };
+    setRequest(request);
+  };
+
+  const saveItem = updatedItem => {
+    const request = {
+      url: `${url}/${updatedItem._id}`,
+      options: {
+        method: "PUT",
+        body: JSON.stringify(updatedItem)
+      }
+    };
+    setRequest(request);
+  };
+
+
+  /**
+   * Toggles a todo item complete or incomplete.
+   * @param {*} id 
+   */
+  const toggleComplete = id => {
+    let item = todoList.filter(i => i._id === id)[0] || {};
+    if (item._id) {
+      item.complete = !item.complete;
+      saveItem(item);
+    }
+  };
+
+
+  /**
+   * Toggles the details of a specific todo item
+   * @param {*} id 
+   */
+  const toggleDetails = id => {
+    let showDetailsState = !showDetails;
+    let itemDetails = todoList.filter(item => item._id === id)[0] || {};
+
+    setDetails(itemDetails);
+    setShowDetails(showDetailsState);
+  };
+
+  
+  /**
+   * Toggles the the pages of items 
+   */
+  const togglePageNumber = e => {
+    if (e.target.name === "nextButton") {
+      settingsContext.setPageNumber(settingsContext.pageNumber + 1);
+    }
+    if (e.target.name === "prevButton") {
+      settingsContext.setPageNumber(settingsContext.pageNumber - 1);
+    }
+  };
+
+  const toggleHideComplete = e => {
+    if (e.target.name === "hideCompleteButton") {
+      settingsContext.setDisplayCompleted(!settingsContext.displayCompleted);
+    }
+  };
+
+  return (
+    &lt;>
+      &lt;Auth capbility="read">
+        &lt;header id="todoHeader">
+          &lt;h2>
+            There are {todoList.filter(item => !item.complete).length} Items To
+            Complete
+          &lt;/h2>
+        &lt;/header>
+      &lt;/Auth>
+
+      &lt;section className="todo">
+        &lt;div id="addItem">
+          &lt;Auth capability="create">
+            &lt;div>
+              &lt;h3>Add Item&lt;/h3>
+              &lt;form onSubmit={handleSubmit}>
+                &lt;label>
+                  &lt;span>To Do Item&lt;/span>
+                  &lt;input
+                    name="text"
+                    placeholder="Add To Do List Item"
+                    onChange={handleChange}
+                  />
+                &lt;/label>
+                &lt;label>
+                  &lt;span>Difficulty Rating&lt;/span>
+                  &lt;input
+                    type="range"
+                    min="1"
+                    max="5"
+                    name="difficulty"
+                    defaultValue="3"
+                    onChange={handleChange}
+                  />
+                &lt;/label>
+                &lt;label>
+                  &lt;span>Assigned To&lt;/span>
+                  &lt;input
+                    type="text"
+                    name="assignee"
+                    placeholder="Assigned To"
+                    onChange={handleChange}
+                  />
+                &lt;/label>
+                &lt;label>
+                  &lt;span>Due&lt;/span>
+                  &lt;input type="date" name="due" onChange={handleChange} />
+                &lt;/label>
+                &lt;button>Add Item&lt;/button>
+              &lt;/form>
+            &lt;/div>
+          &lt;/Auth>
+        &lt;/div>
+        &lt;Auth capbilith="read">
+          &lt;div>
+            &lt;button
+              className="smButtons"
+              name="hideCompleteButton"
+              onClick={toggleHideComplete}
+            >
+              Display Completed
+            &lt;/button>
+            &lt;ul>
+              &lt;If condition={settingsContext.displayCompleted === true}>
+                &lt;Then>
+                  {todoList
+                    .filter(item => item.complete === false)
+                    .slice(
+                      settingsContext.pageNumber *
+                        settingsContext.itemsDisplayed,
+                      settingsContext.pageNumber *
+                        settingsContext.itemsDisplayed +
+                        settingsContext.itemsDisplayed
+                    )
+                    .map(item => (
+                      &lt;li
+                        className={`complete-${item.complete.toString()}`}
+                        key={item._id}
+                      >
+                        &lt;span onClick={() => toggleComplete(item._id)}>
+                          {item.text}
+                        &lt;/span>
+                        &lt;Auth capability="update">
+                          &lt;button onClick={() => toggleDetails(item._id)}>
+                            Details
+                          &lt;/button>
+                        &lt;/Auth>
+                        &lt;Auth capability="delete">
+                          &lt;button onClick={() => deleteItem(item._id)}>
+                            Delete
+                          &lt;/button>
+                        &lt;/Auth>
+                      &lt;/li>
+                    ))}
+                &lt;/Then>
+                &lt;Else>
+                  {todoList
+                    .slice(
+                      settingsContext.pageNumber *
+                        settingsContext.itemsDisplayed,
+                      settingsContext.pageNumber *
+                        settingsContext.itemsDisplayed +
+                        settingsContext.itemsDisplayed
+                    )
+                    .map(item => (
+                      &lt;li
+                        className={`complete-${item.complete.toString()}`}
+                        key={item._id}
+                      >
+                        &lt;span onClick={() => toggleComplete(item._id)}>
+                          {item.text}
+                        &lt;/span>
+                        &lt;Auth capability="update">
+                          &lt;button onClick={() => toggleDetails(item._id)}>
+                            Details
+                          &lt;/button>
+                        &lt;/Auth>
+                        &lt;Auth capability="delete">
+                          &lt;button onClick={() => deleteItem(item._id)}>
+                            Delete
+                          &lt;/button>
+                        &lt;/Auth>
+                      &lt;/li>
+                    ))}
+                &lt;/Else>
+              &lt;/If>
+              &lt;If condition={settingsContext.pageNumber >= 1}>
+                &lt;Then>
+                  &lt;button
+                    className="smButtons"
+                    name="prevButton"
+                    onClick={togglePageNumber}
+                  >
+                    Previous
+                  &lt;/button>
+                &lt;/Then>
+              &lt;/If>
+              &lt;If
+                condition={
+                  settingsContext.currentDisplayed > 5 &amp;&amp;
+                  settingsContext.currentDisplayed /
+                    (settingsContext.pageNumber + 1) >
+                    settingsContext.itemsDisplayed
+                }
+              >
+                &lt;Then>
+                  &lt;button
+                    className="smButtons"
+                    name="nextButton"
+                    onClick={togglePageNumber}
+                  >
+                    Next
+                  &lt;/button>
+                &lt;/Then>
+              &lt;/If>
+            &lt;/ul>
+          &lt;/div>
+        &lt;/Auth>
+      &lt;/section>
+
+      &lt;When condition={showDetails}>
+        &lt;Modal title="To Do Item" close={toggleDetails}>
+          &lt;div className="todo-details">
+            &lt;header>
+              &lt;span>
+                &lt;h4>Assigned To:&lt;/h4> {details.assignee}{" "}
+              &lt;/span>
+              &lt;span>
+                &lt;h4>Difficulty:&lt;/h4> {details.difficulty} out of 5{" "}
+              &lt;/span>
+              &lt;span>
+                &lt;h4>Due: &lt;/h4>
+                {details.due}{" "}
+              &lt;/span>
+            &lt;/header>
+            &lt;h4>Details:&lt;/h4>
+            &lt;div className="item">{details.text}&lt;/div>
+          &lt;/div>
+        &lt;/Modal>
+      &lt;/When>
+    &lt;/>
+  );
+};
+
+export default ToDo;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Auth.html">Auth</a></li><li><a href="Login.html">Login</a></li><li><a href="LoginProvider.html">LoginProvider</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Mar 01 2020 22:29:31 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
